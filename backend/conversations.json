@@ -1,0 +1,172 @@
+{
+  "1": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-02T23:06:39.315Z"
+      }
+    ],
+    "startTime": "2026-04-02T23:06:39.315Z",
+    "lang": "en"
+  },
+  "ms_nhd5t5q0b_1775170916757": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is MediSaver and how does it work?",
+        "ts": "2026-04-02T23:02:06.230Z"
+      },
+      {
+        "role": "user",
+        "content": "What are the membership pricing plans?",
+        "ts": "2026-04-02T23:02:26.047Z"
+      },
+      {
+        "role": "user",
+        "content": "Show me doctors and providers near Miami",
+        "ts": "2026-04-02T23:02:27.276Z"
+      },
+      {
+        "role": "user",
+        "content": "What are the member prices for lab tests?",
+        "ts": "2026-04-02T23:02:30.034Z"
+      },
+      {
+        "role": "user",
+        "content": "How do I sign up and try it free?",
+        "ts": "2026-04-02T23:02:31.651Z"
+      },
+      {
+        "role": "user",
+        "content": "Tell me about the family membership plan at $55 per month for up to 5 members",
+        "ts": "2026-04-02T23:02:33.043Z"
+      },
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-02T23:02:37.297Z"
+      },
+      {
+        "role": "user",
+        "content": "what type of services do you provide",
+        "ts": "2026-04-02T23:02:47.664Z"
+      },
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-02T23:02:51.134Z"
+      }
+    ],
+    "startTime": "2026-04-02T23:02:06.230Z",
+    "lang": "en"
+  },
+  "ms_gna7fkrzj_1775171020421": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-02T23:03:46.978Z"
+      },
+      {
+        "role": "user",
+        "content": "what type of services do you provide sir",
+        "ts": "2026-04-02T23:03:57.503Z"
+      },
+      {
+        "role": "user",
+        "content": "give ne c++ code for calcuacltor",
+        "ts": "2026-04-02T23:04:05.103Z"
+      },
+      {
+        "role": "user",
+        "content": "What are the membership pricing plans?",
+        "ts": "2026-04-02T23:04:15.961Z"
+      },
+      {
+        "role": "user",
+        "content": "Tell me about the Single User membership plan at $30 per month",
+        "ts": "2026-04-02T23:04:28.372Z"
+      },
+      {
+        "role": "user",
+        "content": "What is the contact information and hours?",
+        "ts": "2026-04-02T23:04:29.734Z"
+      },
+      {
+        "role": "user",
+        "content": "I am a doctor and want to become a provider",
+        "ts": "2026-04-02T23:04:30.838Z"
+      },
+      {
+        "role": "user",
+        "content": "How do I sign up and try it free?",
+        "ts": "2026-04-02T23:04:31.776Z"
+      },
+      {
+        "role": "user",
+        "content": "How do I sign up and try it free?",
+        "ts": "2026-04-02T23:04:32.086Z"
+      },
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-02T23:04:34.069Z"
+      },
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-02T23:05:23.541Z"
+      }
+    ],
+    "startTime": "2026-04-02T23:03:46.978Z",
+    "lang": "en"
+  },
+  "ms_a1vi8ebyu_1775171183947": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-02T23:06:28.049Z"
+      }
+    ],
+    "startTime": "2026-04-02T23:06:28.049Z",
+    "lang": "en"
+  },
+  "ms_ptpp8ei9n_1775171948070": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-02T23:19:14.483Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello there! How can I assist you today? If you're curious about how MediSaver can help you save on medical expenses, feel free to ask! Don't forget, we offer a FREE 30-day trial to get you started. 😊",
+        "ts": "2026-04-02T23:19:15.879Z"
+      },
+      {
+        "role": "user",
+        "content": "what type of services do you provide",
+        "ts": "2026-04-02T23:19:37.380Z"
+      },
+      {
+        "role": "assistant",
+        "content": "MediSaver offers a wide range of discounted healthcare services through our network of over 60 providers in South Florida. Here's a glimpse of what we offer:\n\n- **General and Specialist Doctor Visits**: Enjoy significant savings on initial and follow-up consultations.\n- **Diagnostic Imaging**: Discounts on X-rays, MRIs, CT scans, and ultrasounds.\n- **Lab Tests**: Affordable rates on common tests like CBC, glucose, cholesterol, and more.\n- **Dental Care**: Reduced prices on exams, cleanings, fillings, crowns, and orthodontics.\n- **Therapies and Injections**: Cost-effective options for various therapies and injections.\n- **Pharmacy Discounts**: Up to 88% off prescriptions at over 70,000 pharmacies nationwide with our FREE pharmacy discount card.\n\nIf you're interested in learning more about how MediSaver can help you save on medical expenses, visit medisavercard.com or take advantage of our FREE 30-day trial! 😊",
+        "ts": "2026-04-02T23:19:43.181Z"
+      },
+      {
+        "role": "user",
+        "content": "What is MediSaver and how does it work?",
+        "ts": "2026-04-02T23:19:51.186Z"
+      },
+      {
+        "role": "assistant",
+        "content": "MediSaver is a Florida-licensed medical discount plan, designed to help individuals who are uninsured, underinsured, or self-pay access affordable healthcare. It's not insurance, but rather a program that provides discounts on medical services through a network of providers.\n\nHere's how it works:\n\n- **Membership**: Members pay a monthly fee to access discounted healthcare services. Plans start at $30/month for individuals.\n  \n- **Discounted Rates**: Members receive discounts of up to 75–80% on medical services, including doctor visits, lab tests, imaging, and more. For example, an office visit might cost only $30.\n  \n- **Pharmacy Savings**: Every membership includes a FREE pharmacy discount card, offering up to 88% savings on prescriptions at over 70,000 pharmacies nationwide.\n  \n- **No Restrictions**: There are no medical exams, health screenings, or restrictions based on immigration status to join.\n\nEveryone qualifies to join, and you can try it out with our FREE 30-day trial. If you're ready to start saving on healthcare, visit medisavercard.com/register! 😊",
+        "ts": "2026-04-02T23:19:54.051Z"
+      }
+    ],
+    "startTime": "2026-04-02T23:19:14.483Z",
+    "lang": "en"
+  }
+}

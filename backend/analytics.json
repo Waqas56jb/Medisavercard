@@ -1,0 +1,20 @@
+{
+  "sessions": {
+    "1": 1,
+    "ms_nhd5t5q0b_1775170916757": 9,
+    "ms_gna7fkrzj_1775171020421": 11,
+    "ms_a1vi8ebyu_1775171183947": 1,
+    "ms_ptpp8ei9n_1775171948070": 3
+  },
+  "intents": {
+    "what_is": 5,
+    "pricing": 5,
+    "providers": 2,
+    "become_provider": 2,
+    "labs": 1,
+    "signup": 3,
+    "general": 12,
+    "contact": 1
+  },
+  "messages": 25
+}
