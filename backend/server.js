@@ -14,13 +14,8 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const frontendRoot = path.join(__dirname, '..', 'frontend');
-const distRoot = path.join(frontendRoot, 'dist');
-const staticRoot = fs.existsSync(path.join(distRoot, 'index.html')) ? distRoot : frontendRoot;
-
 app.use(cors());
 app.use(express.json());
-app.use(express.static(staticRoot));
 
 /* ═══════════════════════════════════════════════════════════
    PERSISTENT STORAGE
@@ -609,11 +604,12 @@ app.get('/api/leads/export', (req, res) => {
 });
 
 app.get('/api/health', (req, res) => res.json({ status: 'operational', service: 'MediSaver AI', timestamp: new Date().toISOString() }));
-app.get(/.*/, (req, res) => res.sendFile(path.join(staticRoot, 'index.html')));
 
-app.listen(PORT, () => {
-    console.log(`\n✅ MediSaver AI Chatbot running: http://localhost:${PORT}`);
-    console.log(`🔑 API Key: ${process.env.OPENAI_API_KEY ? '✅ Set' : '❌ Missing — add to backend/.env'}\n`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`\n✅ MediSaver AI Chatbot running: http://localhost:${PORT}`);
+        console.log(`🔑 API Key: ${process.env.OPENAI_API_KEY ? '✅ Set' : '❌ Missing — add to backend/.env'}\n`);
+    });
+}
 
 module.exports = app;

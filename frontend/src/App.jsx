@@ -81,6 +81,9 @@ const DEFAULT_CHIPS = [
   { l: '✅ Sign Up', q: null, href: 'https://medisavercard.com/register' },
 ];
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+const apiUrl = (path) => `${API_BASE}${path}`;
+
 export default function App() {
   const sessionId = useMemo(
     () => `ms_${Math.random().toString(36).slice(2, 11)}_${Date.now()}`,
@@ -188,7 +191,7 @@ export default function App() {
       const nextMsgCount = msgCount + 1;
 
       try {
-        const r = await fetch('/api/chat', {
+        const r = await fetch(apiUrl('/api/chat'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -312,7 +315,7 @@ export default function App() {
     setOverlayActive(true);
     setAnalyticsData(null);
     setAnalyticsError(false);
-    fetch('/api/analytics')
+    fetch(apiUrl('/api/analytics'))
       .then((r) => r.json())
       .then((d) => setAnalyticsData(d))
       .catch(() => {
@@ -343,7 +346,7 @@ export default function App() {
     }
     setLfSubmitting(true);
     try {
-      await fetch('/api/leads', {
+      await fetch(apiUrl('/api/leads'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -588,7 +591,7 @@ export default function App() {
                 <button
                   type="button"
                   className="export-btn"
-                  onClick={() => window.open(`${window.location.origin}/api/leads/export`, '_blank')}
+                  onClick={() => window.open(apiUrl('/api/leads/export'), '_blank')}
                 >
                   ⬇ Export Leads as CSV
                 </button>
