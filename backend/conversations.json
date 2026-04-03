@@ -168,5 +168,37 @@
     ],
     "startTime": "2026-04-02T23:19:14.483Z",
     "lang": "en"
+  },
+  "ms_v3s1q94zk_1775172463023": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-02T23:27:48.220Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello there! How can I assist you today with MediSaver's medical discount plan? If you're curious about how you can save on healthcare, I'm here to help. 😊",
+        "ts": "2026-04-02T23:27:50.549Z"
+      }
+    ],
+    "startTime": "2026-04-02T23:27:48.220Z",
+    "lang": "en"
+  },
+  "ms_7apl9uban_1775211897489": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi",
+        "ts": "2026-04-03T10:25:00.404Z"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello there! How can I assist you today with your healthcare needs? Whether you're curious about our discounted medical services or want to know more about our membership plans, I'm here to help. Don't forget, you can try our services for FREE for 30 days!",
+        "ts": "2026-04-03T10:25:03.020Z"
+      }
+    ],
+    "startTime": "2026-04-03T10:25:00.404Z",
+    "lang": "en"
   }
 }
