@@ -17,6 +17,17 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+if (process.env.VERCEL) {
+    app.use((req, _res, next) => {
+        const raw = req.headers['x-vercel-original-path'] || req.headers['x-invoke-path'];
+        const q = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+        if (typeof raw === 'string' && raw.startsWith('/')) {
+            req.url = raw.split('?')[0] + q;
+        }
+        next();
+    });
+}
+
 /* ═══════════════════════════════════════════════════════════
    PERSISTENT STORAGE
 ═══════════════════════════════════════════════════════════ */
@@ -603,7 +614,11 @@ app.get('/api/leads/export', (req, res) => {
     res.send(csv);
 });
 
-app.get('/api/health', (req, res) => res.json({ status: 'operational', service: 'MediSaver AI', timestamp: new Date().toISOString() }));
+function healthJson() {
+    return { status: 'operational', service: 'MediSaver AI', timestamp: new Date().toISOString() };
+}
+app.get('/api/health', (req, res) => res.json(healthJson()));
+app.get('/health', (req, res) => res.json(healthJson()));
 
 if (require.main === module) {
     app.listen(PORT, () => {

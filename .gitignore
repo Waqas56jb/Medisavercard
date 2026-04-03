@@ -22,18 +22,17 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# data files
+# JSON: broad ignore for random/dump files; explicitly allow manifests + Vercel + tracked backend data
 *.json
-!Package.json
-!backend/Package.json
+!backend/package.json
+!backend/package-lock.json
+!backend/vercel.json
+!frontend/vercel.json
 !frontend/package.json
+!frontend/package-lock.json
 !backend/analytics.json
 !backend/leads.json
 !backend/conversations.json
-# Note: if analytics.json, leads.json, conversations.json are generated at runtime you might want to uncomment the ignores below instead of tracking them, but we left them as tracked for now unless you want them ignored.
-# backend/analytics.json
-# backend/leads.json
-# backend/conversations.json
 
 # Vercel
 .vercel
