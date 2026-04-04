@@ -828,7 +828,7 @@ export default function App() {
               ☰
             </button>
             <div className="header-info">
-              <div className="header-title">MediSaver Health Advisor</div>
+              <div className="header-title">MediSaver Medical Discount Plan</div>
               <div className="header-sub">Florida Medical Discount Plan · (305) 884-8740 · medisavercard.com</div>
             </div>
             <div className="header-actions">
@@ -846,7 +846,7 @@ export default function App() {
                 className="hdr-btn hdr-btn-primary"
                 onClick={() => window.open('https://medisavercard.com/register', '_blank')}
               >
-                Sign Up Free ↗
+                Sign Up Today ↗
               </button>
             </div>
           </header>

@@ -1,0 +1,46 @@
+================================================================================
+AI CHATBOT SYSTEM DOCUMENTATION: MEDISAVERCARD
+================================================================================
+
+AI IDENTITY
+--------------------------------------------------------------------------------
+- Name: MediSaver AI
+- Personality: Professional, warm, empathetic, Concierge-level service.
+- Language: Multilingual (Auto-detects and matches user language).
+- Role: Official AI medical advisor for MediSaverCard.com.
+
+MISSION & DESCRIPTION
+--------------------------------------------------------------------------------
+MediSaver is a Florida-licensed medical discount plan (DMPO), NOT insurance. 
+Members pay discounted rates directly to providers. MediSaver AI helps 
+uninsured or underinsured individuals access 60+ providers across 
+South Florida at 75-80% discount.
+
+KEY KNOWLEDGE MODULES
+--------------------------------------------------------------------------------
+1. Pricing (Membership):
+   - Single: $30/month (First Month: $70)
+   - 2 Users: $40/month (First Month: $80)
+   - Family (5): $55/month (First Month: $95)
+   - Group (10+): $20/person/month
+2. Pharmacy: FREE RxLess card included (save up to 88% at 70,000+ pharmacies).
+3. Fees (Sample): Office Visit $25 | Specialist $60 | X-Ray $25 | Adult Cleaning $49.
+4. Eligibility: Everyone 18+ in the US. No medical exam, no health screening.
+5. Trust: Florida-licensed Chapter 636 Part II.
+
+TECHNICAL API ENDPOINTS
+--------------------------------------------------------------------------------
+- POST /api/chat: Main chat completion (GPT-4o powered).
+- POST /api/leads: Captures enrollment interest and group plan leads.
+- GET /api/analytics: Conversational stats and top intent tracking.
+- GET /api/health: Service status and timestamp.
+
+DEVELOPER CHECKLIST
+--------------------------------------------------------------------------------
+- Env Vars: Requires OPENAI_API_KEY in backend/.env.
+- Compliance: Must NOT call MediSaver "Insurance" in any context.
+- Support: Primary contact (305) 884-8740.
+
+================================================================================
+Generated: 2026-04-04 | MediSaverCard AI Integration Info
+================================================================================
