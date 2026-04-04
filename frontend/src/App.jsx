@@ -608,7 +608,7 @@ export default function App() {
         >
           <div className="sb-logo">
             <div className="logo-row">
-              <div className="logo-icon">🏥</div>
+              <div className="logo-icon"><img src="/logo.jpeg" alt="MediSaver" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
               <div className="logo-text">
                 <span className="logo-name">MediSaver</span>
                 <span className="logo-sub">Medical Discount</span>
@@ -854,7 +854,7 @@ export default function App() {
           <div className="messages" id="messagesArea" ref={messagesRef}>
             {welcomeMode === 'full' && (
               <div className="welcome" id="welcomeScreen">
-                <div className="welcome-avatar">🏥</div>
+                <div className="welcome-avatar"><img src="/logo.jpeg" alt="MediSaver" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
                 <h1 className="welcome-title">
                   Your <em>Personal</em>
                   <br />
@@ -938,7 +938,7 @@ export default function App() {
             )}
             {welcomeMode === 'cleared' && (
               <div className="welcome" id="welcomeScreen">
-                <div className="welcome-avatar">🏥</div>
+                <div className="welcome-avatar"><img src="/logo.jpeg" alt="MediSaver" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
                 <h1 className="welcome-title">
                   Chat <em>Cleared</em>
                 </h1>
@@ -947,7 +947,7 @@ export default function App() {
             )}
             {messages.map((m) => (
               <div key={m.id} className={`msg-row${m.role === 'bot' ? '' : ' user'}`}>
-                <div className={`msg-av ${m.role === 'bot' ? 'bot' : 'usr'}`}>{m.role === 'bot' ? '🏥' : '👤'}</div>
+                <div className={`msg-av ${m.role === 'bot' ? 'bot' : 'usr'}`}>{m.role === 'bot' ? <img src="/logo.jpeg" alt="Bot" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} /> : '👤'}</div>
                 <div className="msg-body">
                   {m.role === 'bot' ? (
                     <div
@@ -963,7 +963,7 @@ export default function App() {
             ))}
             {isTyping && (
               <div className="typing-row">
-                <div className="msg-av bot">🏥</div>
+                <div className="msg-av bot"><img src="/logo.jpeg" alt="Bot" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} /></div>
                 <div className="typing-bubble">
                   <div className="typing-dots">
                     <span />

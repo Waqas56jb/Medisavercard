@@ -1,4 +1,4 @@
-﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    MEDISAVER â€” FULL PAGE AI HEALTH ADVISOR
    Aesthetic: Clean Medical Green / Trustworthy Premium
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
@@ -9,27 +9,27 @@
         }
 
         :root {
-            --bg: #f0f5f2;
-            --bg2: #e8f0eb;
+            --bg: #f4f7f9;
+            --bg2: #e9f0f5;
             --surface: #ffffff;
-            --navy: #1a3a5c;
-            --navy2: #112645;
-            --teal: #0d7f6e;
-            --teal2: #0a6559;
-            --teal-light: #e6f4f1;
-            --green: #27ae60;
-            --green-soft: #d4efdf;
-            --gold: #c8961a;
-            --gold-light: #fef9e7;
+            --navy: #003666;
+            --navy2: #002344;
+            --teal: #003666;
+            --teal2: #002344;
+            --teal-light: #dbe8f3;
+            --green: #eb6a1d;
+            --green-soft: #fdede2;
+            --gold: #eb6a1d;
+            --gold-light: #fdede2;
             --red: #e74c3c;
-            --border: rgba(13, 127, 110, 0.15);
-            --border2: rgba(26, 58, 92, 0.12);
-            --text: #1a2e1e;
-            --text2: #2d4a35;
-            --muted: #5a7a65;
-            --muted2: #8aaa95;
-            --shadow: 0 4px 24px rgba(13, 127, 110, .10);
-            --shadow-lg: 0 12px 48px rgba(13, 127, 110, .14);
+            --border: rgba(0, 54, 102, 0.15);
+            --border2: rgba(0, 54, 102, 0.12);
+            --text: #17202a;
+            --text2: #2c3e50;
+            --muted: #566573;
+            --muted2: #808b96;
+            --shadow: 0 4px 24px rgba(0, 54, 102, .10);
+            --shadow-lg: 0 12px 48px rgba(0, 54, 102, .14);
             --radius: 16px;
             --radius-sm: 10px;
             --font: 'Outfit', sans-serif;
@@ -58,7 +58,7 @@
         .sidebar {
             width: 280px;
             min-width: 280px;
-            background: var(--navy2);
+            background: var(--green); /* Orange color */
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -73,7 +73,7 @@
         /* Logo */
         .sb-logo {
             padding: 24px 20px 18px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             flex-shrink: 0;
         }
 
@@ -84,16 +84,17 @@
         }
 
         .logo-icon {
-            width: 46px;
-            height: 46px;
-            background: linear-gradient(135deg, var(--teal), #0a9980);
+            width: 48px;
+            height: 48px;
+            background: #fff;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
             flex-shrink: 0;
-            box-shadow: 0 4px 16px rgba(13, 127, 110, .4);
+            box-shadow: 0 4px 16px rgba(0, 54, 102, .3);
+            overflow: hidden;
+            padding: 4px;
         }
 
         .logo-text {
@@ -105,14 +106,14 @@
             font-family: var(--font);
             font-size: 17px;
             font-weight: 800;
-            color: #fff;
+            color: #ffffff;
             letter-spacing: -.01em;
             line-height: 1;
         }
 
         .logo-sub {
             font-size: 10px;
-            color: rgba(255, 255, 255, .45);
+            color: rgba(255, 255, 255, 0.7);
             text-transform: uppercase;
             letter-spacing: .1em;
             margin-top: 2px;
@@ -125,11 +126,11 @@
             gap: 5px;
             margin-top: 12px;
             padding: 5px 10px;
-            background: rgba(39, 174, 96, .12);
-            border: 1px solid rgba(39, 174, 96, .25);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 50px;
             font-size: 11px;
-            color: #4ade80;
+            color: #ffffff;
             font-weight: 600;
             width: fit-content;
         }
@@ -168,7 +169,7 @@
         }
 
         .sb-scroll::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 2px;
         }
 
@@ -178,7 +179,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: .14em;
-            color: rgba(255, 255, 255, .3);
+            color: rgba(255, 255, 255, 0.6);
             padding: 0 4px 8px;
             margin-top: 4px;
         }
@@ -199,7 +200,7 @@
             background: transparent;
             border: 1px solid transparent;
             border-radius: var(--radius-sm);
-            color: rgba(255, 255, 255, .65);
+            color: rgba(255, 255, 255, 0.85);
             font-family: var(--font);
             font-size: 13px;
             font-weight: 500;
@@ -210,9 +211,9 @@
         }
 
         .qa-btn:hover {
-            background: rgba(255, 255, 255, .06);
-            border-color: rgba(255, 255, 255, .08);
-            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
         }
 
         .qa-btn .qa-icon {
@@ -228,7 +229,7 @@
 
         .qa-btn .qa-arrow {
             font-size: 10px;
-            color: rgba(255, 255, 255, .25);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         /* Stats cards */
@@ -240,8 +241,8 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, .05);
-            border: 1px solid rgba(255, 255, 255, .07);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-sm);
             padding: 12px 10px;
             text-align: center;
@@ -251,13 +252,13 @@
             font-family: var(--font-s);
             font-size: 22px;
             font-weight: 600;
-            color: var(--teal);
+            color: #ffffff;
             font-style: italic;
         }
 
         .stat-lbl {
             font-size: 9.5px;
-            color: rgba(255, 255, 255, .35);
+            color: rgba(255, 255, 255, 0.6);
             text-transform: uppercase;
             letter-spacing: .08em;
             margin-top: 2px;
@@ -275,27 +276,27 @@
             align-items: center;
             justify-content: space-between;
             padding: 9px 12px;
-            background: rgba(255, 255, 255, .04);
-            border: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-sm);
             cursor: pointer;
             transition: all .18s;
         }
 
         .plan-item:hover {
-            background: rgba(13, 127, 110, .15);
-            border-color: rgba(13, 127, 110, .3);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
         .plan-name {
             font-size: 12px;
             font-weight: 600;
-            color: rgba(255, 255, 255, .8);
+            color: #ffffff;
         }
 
         .plan-price {
             font-size: 11px;
-            color: var(--teal);
+            color: #ffffff;
             font-weight: 700;
         }
 
@@ -462,28 +463,29 @@
         }
 
         .welcome-avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--teal), #0a9980);
+            width: 100px;
+            height: 100px;
+            background: #fff;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
             margin-bottom: 20px;
-            box-shadow: 0 0 0 8px rgba(13, 127, 110, .1), var(--shadow-lg);
+            box-shadow: 0 0 0 8px rgba(0, 54, 102, .05), var(--shadow-lg);
             animation: avatar-pulse 3s ease-in-out infinite;
+            overflow: hidden;
+            padding: 4px;
         }
 
         @keyframes avatar-pulse {
 
             0%,
             100% {
-                box-shadow: 0 0 0 8px rgba(13, 127, 110, .1), var(--shadow-lg);
+                box-shadow: 0 0 0 8px rgba(0, 54, 102, .05), var(--shadow-lg);
             }
 
             50% {
-                box-shadow: 0 0 0 14px rgba(13, 127, 110, .07), var(--shadow-lg);
+                box-shadow: 0 0 0 14px rgba(0, 54, 102, .03), var(--shadow-lg);
             }
         }
 
@@ -529,13 +531,13 @@
         .badge-teal {
             background: var(--teal-light);
             color: var(--teal2);
-            border: 1px solid rgba(13, 127, 110, .2);
+            border: 1px solid rgba(0, 54, 102, .2);
         }
 
         .badge-green {
             background: var(--green-soft);
-            color: #1e8449;
-            border: 1px solid #a9dfbf;
+            color: #cc5a0e;
+            border: 1px solid #eb6a1d;
         }
 
         .badge-gold {
@@ -648,9 +650,11 @@
         }
 
         .msg-av.bot {
-            background: linear-gradient(135deg, var(--teal), #0a9980);
+            background: #fff;
             color: #fff;
-            box-shadow: 0 2px 10px rgba(13, 127, 110, .3);
+            box-shadow: 0 2px 10px rgba(0, 54, 102, .15);
+            overflow: hidden;
+            padding: 2px;
         }
 
         .msg-av.usr {
@@ -700,7 +704,7 @@
 
         .bubble.user b,
         .bubble.user strong {
-            color: #b2f0e0;
+            color: #fdede2;
         }
 
         .bubble ul,
@@ -754,8 +758,8 @@
 
         .badge-inline.green {
             background: var(--green-soft);
-            color: #1e8449;
-            border: 1px solid #a9dfbf;
+            color: #cc5a0e;
+            border: 1px solid #eb6a1d;
         }
 
         .badge-inline.red {
@@ -1556,3 +1560,4 @@
                 font-size: 24px;
             }
         }
+
