@@ -116,6 +116,7 @@ export default function App() {
   const [lfSubmitting, setLfSubmitting] = useState(false);
 
   const [toasts, setToasts] = useState([]);
+  const [voiceModalOpen, setVoiceModalOpen] = useState(false);
 
   const [winW, setWinW] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const [desktopSidebarCollapsed, setDesktopSidebarCollapsed] = useState(false);
@@ -124,17 +125,17 @@ export default function App() {
   const messagesRef = useRef(null);
   const textareaRef = useRef(null);
 
-  const narrow = winW <= 768;
+  const narrow = winW <= 640;
   const sidebarCollapsed = narrow ? !mobileSidebarOpen : desktopSidebarCollapsed;
   const sidebarMobileOpenClass = narrow && mobileSidebarOpen;
 
   const placeholder =
     {
-      en: 'Ask me anything about MediSaver…',
-      es: 'Pregúntame sobre MediSaver…',
-      fr: 'Posez vos questions sur MediSaver…',
+      en: 'Ask about MediSaver plans, providers, or pricing…',
+      es: 'Pregunta sobre planes, proveedores o precios…',
+      fr: 'Question sur MediSaver…',
       pt: 'Pergunte sobre o MediSaver…',
-    }[lang] || 'Ask me anything about MediSaver… in any language';
+    }[lang] || 'Ask about MediSaver…';
 
   const showToast = useCallback((msg, type = '') => {
     const id = `${Date.now()}_${Math.random().toString(36).slice(2)}`;
@@ -146,12 +147,16 @@ export default function App() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 640) {
       setMobileSidebarOpen(false);
     } else {
       setDesktopSidebarCollapsed(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (!narrow) setMobileSidebarOpen(false);
+  }, [narrow]);
 
   useEffect(() => {
     const onResize = () => {
@@ -160,6 +165,24 @@ export default function App() {
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  useEffect(() => {
+    if (!voiceModalOpen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setVoiceModalOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [voiceModalOpen]);
+
+  useEffect(() => {
+    if (!narrow || !mobileSidebarOpen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setMobileSidebarOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [narrow, mobileSidebarOpen]);
 
   useEffect(() => {
     const el = messagesRef.current;
@@ -233,9 +256,10 @@ export default function App() {
   const quickSend = useCallback(
     (text) => {
       setInputValue('');
+      if (narrow) setMobileSidebarOpen(false);
       sendMessage(text);
     },
-    [sendMessage]
+    [sendMessage, narrow]
   );
 
   const handleKeydown = (e) => {
@@ -270,7 +294,7 @@ export default function App() {
   };
 
   const toggleSidebar = () => {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 640) {
       setMobileSidebarOpen((v) => !v);
     } else {
       setDesktopSidebarCollapsed((c) => !c);
@@ -278,6 +302,7 @@ export default function App() {
   };
 
   const setLangChoice = (l) => {
+    if (narrow) setMobileSidebarOpen(false);
     setLang(l);
     const msgs = {
       es: 'Hola! Ahora podemos hablar en español. ¿En qué le puedo ayudar con MediSaver hoy?',
@@ -293,6 +318,7 @@ export default function App() {
 
   const openLead = (type) => {
     if (leadOpen) return;
+    if (narrow) setMobileSidebarOpen(false);
     setLeadOpen(true);
     setOverlayActive(true);
     if (type === 'group') {
@@ -607,6 +633,16 @@ export default function App() {
           id="sidebar"
         >
           <div className="sb-logo">
+            {narrow && (
+              <button
+                type="button"
+                className="sidebar-close-btn"
+                aria-label="Close menu"
+                onClick={() => setMobileSidebarOpen(false)}
+              >
+                ✕
+              </button>
+            )}
             <div className="logo-row">
               <div className="logo-icon"><img src="/logo.jpeg" alt="MediSaver" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
               <div className="logo-text">
@@ -824,12 +860,26 @@ export default function App() {
 
         <main className="main">
           <header className="header">
-            <button type="button" className="header-toggle" onClick={toggleSidebar} title="Toggle menu">
+            <button
+              type="button"
+              className="header-toggle"
+              onClick={toggleSidebar}
+              title="Menu"
+              aria-label={mobileSidebarOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={narrow ? mobileSidebarOpen : undefined}
+            >
               ☰
             </button>
+            {welcomeMode === 'none' && (
+              <button type="button" className="back-home-btn" onClick={() => setWelcomeMode('full')} title="Back to home">
+                ← Home
+              </button>
+            )}
             <div className="header-info">
               <div className="header-title">MediSaver Medical Discount Plan</div>
-              <div className="header-sub">Florida Medical Discount Plan · (305) 884-8740 · medisavercard.com</div>
+              <div className="header-sub">
+                English &amp; Español (text) · AI detects your language · (305) 884-8740 · medisavercard.com
+              </div>
             </div>
             <div className="header-actions">
               <button type="button" className="hdr-btn hdr-btn-ghost" onClick={clearChat}>
@@ -854,16 +904,23 @@ export default function App() {
           <div className="messages" id="messagesArea" ref={messagesRef}>
             {welcomeMode === 'full' && (
               <div className="welcome" id="welcomeScreen">
-                <div className="welcome-avatar"><img src="/logo.jpeg" alt="MediSaver" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
+                <div className="welcome-avatar">
+                  <img src="/logo.jpeg" alt="MediSaver" width={96} height={96} decoding="async" />
+                </div>
                 <h1 className="welcome-title">
-                  Your <em>Personal</em>
-                  <br />
-                  Health Advisor
+                  MediSaver <em>AI Assistant</em>
                 </h1>
+                <p className="welcome-tagline">Medical discount plan help for medisavercard.com</p>
                 <p className="welcome-sub">
                   Get instant answers about MediSaver — Florida&apos;s trusted medical discount plan. Save up to 80% on
-                  doctor visits, labs, dental, imaging, and prescriptions. Ask me anything, in any language.
+                  doctor visits, labs, dental, imaging, and prescriptions. Ask in <strong>English</strong> or{' '}
+                  <strong>Español</strong> (or any language); the AI responds in the language you use.
                 </p>
+                {messages.length > 0 && (
+                  <button type="button" className="continue-convo-btn" onClick={() => setWelcomeMode('none')}>
+                    💬 Continue Conversation →
+                  </button>
+                )}
                 <div className="welcome-badges">
                   <span
                     className="badge badge-red"
@@ -938,7 +995,9 @@ export default function App() {
             )}
             {welcomeMode === 'cleared' && (
               <div className="welcome" id="welcomeScreen">
-                <div className="welcome-avatar"><img src="/logo.jpeg" alt="MediSaver" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
+                <div className="welcome-avatar">
+                  <img src="/logo.jpeg" alt="MediSaver" width={96} height={96} decoding="async" />
+                </div>
                 <h1 className="welcome-title">
                   Chat <em>Cleared</em>
                 </h1>
@@ -992,7 +1051,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="quick-replies" id="quickReplies">
+          <div className="quick-replies quick-replies-above-input" id="quickReplies">
             {quickChips.map((c, i) =>
               c.href ? (
                 <button
@@ -1011,7 +1070,7 @@ export default function App() {
             )}
           </div>
 
-          <div className="input-wrap">
+          <div className="input-wrap input-wrap-bottom" id="chatComposer">
             <div className="input-box" id="inputBox">
               <textarea
                 ref={textareaRef}
@@ -1024,8 +1083,25 @@ export default function App() {
                 onChange={handleInput}
                 onKeyDown={handleKeydown}
                 disabled={isTyping}
+                aria-label="Message MediSaver AI"
               />
               <div className="input-actions">
+                <button
+                  type="button"
+                  className="voice-btn"
+                  title="Voice (coming soon)"
+                  aria-label="Voice input coming soon"
+                  onClick={() => setVoiceModalOpen(true)}
+                >
+                  <span className="voice-btn-icon" aria-hidden>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                      <line x1="12" y1="19" x2="12" y2="23" />
+                      <line x1="8" y1="23" x2="16" y2="23" />
+                    </svg>
+                  </span>
+                </button>
                 <button type="button" className="clear-btn" onClick={clearInput} title="Clear">
                   ✕
                 </button>
@@ -1034,16 +1110,53 @@ export default function App() {
                 </button>
               </div>
             </div>
-            <div className="input-footer">
-              <span className="input-hint">
-                <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> new line
-              </span>
-              <span className="input-hint" id="charCount">
-                {inputValue.length}/2000
-              </span>
-            </div>
           </div>
         </main>
+
+        {narrow && mobileSidebarOpen && (
+          <button
+            type="button"
+            className="sidebar-backdrop"
+            aria-label="Close menu"
+            onClick={() => setMobileSidebarOpen(false)}
+          />
+        )}
+      </div>
+
+      <div
+        className={`voice-soon-overlay${voiceModalOpen ? ' show' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="voice-soon-title"
+        onClick={() => setVoiceModalOpen(false)}
+      >
+        <div className="voice-soon-card" onClick={(e) => e.stopPropagation()}>
+          <button type="button" className="voice-soon-close" onClick={() => setVoiceModalOpen(false)} aria-label="Close">
+            ✕
+          </button>
+          <div className="voice-soon-icon" aria-hidden>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+          </div>
+          <h2 id="voice-soon-title" className="voice-soon-title">
+            Voice input — coming soon
+          </h2>
+          <p className="voice-soon-text">
+            We&apos;re building hands-free <strong>English</strong> and <strong>Spanish</strong> voice support for MediSaver.
+            For now, type your question in the chat bar — the assistant already understands and replies in Español and other languages.
+          </p>
+          <div className="voice-soon-badges">
+            <span className="vs-badge">🎙️ Voice — roadmap</span>
+            <span className="vs-badge">✍️ Text — live now</span>
+          </div>
+          <button type="button" className="voice-soon-ok" onClick={() => setVoiceModalOpen(false)}>
+            Got it
+          </button>
+        </div>
       </div>
     </>
   );
