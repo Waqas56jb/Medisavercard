@@ -84,6 +84,9 @@ const DEFAULT_CHIPS = [
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 const apiUrl = (path) => `${API_BASE}${path}`;
 
+/** Viewport width at or below this uses the slide-out drawer (must match CSS drawer breakpoint). */
+const MOBILE_DRAWER_MAX = 768;
+
 export default function App() {
   const sessionId = useMemo(
     () => `ms_${Math.random().toString(36).slice(2, 11)}_${Date.now()}`,
@@ -125,7 +128,7 @@ export default function App() {
   const messagesRef = useRef(null);
   const textareaRef = useRef(null);
 
-  const narrow = winW <= 640;
+  const narrow = winW <= MOBILE_DRAWER_MAX;
   const sidebarCollapsed = narrow ? !mobileSidebarOpen : desktopSidebarCollapsed;
   const sidebarMobileOpenClass = narrow && mobileSidebarOpen;
 
@@ -147,7 +150,7 @@ export default function App() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (window.innerWidth <= 640) {
+    if (window.innerWidth <= MOBILE_DRAWER_MAX) {
       setMobileSidebarOpen(false);
     } else {
       setDesktopSidebarCollapsed(false);
@@ -198,6 +201,10 @@ export default function App() {
     async (override) => {
       const text = (override ?? inputValue).trim();
       if (!text || isTyping) return;
+
+      if (typeof window !== 'undefined' && window.innerWidth <= MOBILE_DRAWER_MAX) {
+        setMobileSidebarOpen(false);
+      }
 
       setInputValue('');
       if (textareaRef.current) {
@@ -294,7 +301,7 @@ export default function App() {
   };
 
   const toggleSidebar = () => {
-    if (window.innerWidth <= 640) {
+    if (typeof window !== 'undefined' && window.innerWidth <= MOBILE_DRAWER_MAX) {
       setMobileSidebarOpen((v) => !v);
     } else {
       setDesktopSidebarCollapsed((c) => !c);
@@ -356,6 +363,7 @@ export default function App() {
   };
 
   const closeAll = () => {
+    setMobileSidebarOpen(false);
     closeLead();
     closeAnalytics();
   };
@@ -633,22 +641,24 @@ export default function App() {
           id="sidebar"
         >
           <div className="sb-logo">
-            {narrow && (
-              <button
-                type="button"
-                className="sidebar-close-btn"
-                aria-label="Close menu"
-                onClick={() => setMobileSidebarOpen(false)}
-              >
-                ✕
-              </button>
-            )}
-            <div className="logo-row">
-              <div className="logo-icon"><img src="/logo.jpeg" alt="MediSaver" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
-              <div className="logo-text">
-                <span className="logo-name">MediSaver</span>
-                <span className="logo-sub">Medical Discount</span>
+            <div className="sb-logo-head">
+              <div className="logo-row">
+                <div className="logo-icon"><img src="/logo.jpeg" alt="MediSaver" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
+                <div className="logo-text">
+                  <span className="logo-name">MediSaver</span>
+                  <span className="logo-sub">Medical Discount</span>
+                </div>
               </div>
+              {narrow && (
+                <button
+                  type="button"
+                  className="sidebar-close-btn"
+                  aria-label="Close menu"
+                  onClick={() => setMobileSidebarOpen(false)}
+                >
+                  ✕
+                </button>
+              )}
             </div>
             <div className="online-badge">
               <div className="online-dot" />
@@ -856,6 +866,17 @@ export default function App() {
               </div>
             </div>
           </div>
+          {narrow && (
+            <div className="sidebar-mobile-actions">
+              <button
+                type="button"
+                className="sidebar-back-to-chat"
+                onClick={() => setMobileSidebarOpen(false)}
+              >
+                ← Back to chat
+              </button>
+            </div>
+          )}
         </aside>
 
         <main className="main">
