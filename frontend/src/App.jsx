@@ -119,7 +119,6 @@ export default function App() {
   const [lfSubmitting, setLfSubmitting] = useState(false);
 
   const [toasts, setToasts] = useState([]);
-  const [voiceModalOpen, setVoiceModalOpen] = useState(false);
 
   const [winW, setWinW] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const [desktopSidebarCollapsed, setDesktopSidebarCollapsed] = useState(false);
@@ -168,15 +167,6 @@ export default function App() {
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
-
-  useEffect(() => {
-    if (!voiceModalOpen) return;
-    const onKey = (e) => {
-      if (e.key === 'Escape') setVoiceModalOpen(false);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [voiceModalOpen]);
 
   useEffect(() => {
     if (!narrow || !mobileSidebarOpen) return;
@@ -281,14 +271,6 @@ export default function App() {
     setInputValue(ta.value);
     ta.style.height = 'auto';
     ta.style.height = `${Math.min(ta.scrollHeight, 140)}px`;
-  };
-
-  const clearInput = () => {
-    setInputValue('');
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.focus();
-    }
   };
 
   const clearChat = () => {
@@ -1107,25 +1089,6 @@ export default function App() {
                 aria-label="Message MediSaver AI"
               />
               <div className="input-actions">
-                <button
-                  type="button"
-                  className="voice-btn"
-                  title="Voice (coming soon)"
-                  aria-label="Voice input coming soon"
-                  onClick={() => setVoiceModalOpen(true)}
-                >
-                  <span className="voice-btn-icon" aria-hidden>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                      <line x1="12" y1="19" x2="12" y2="23" />
-                      <line x1="8" y1="23" x2="16" y2="23" />
-                    </svg>
-                  </span>
-                </button>
-                <button type="button" className="clear-btn" onClick={clearInput} title="Clear">
-                  ✕
-                </button>
                 <button type="button" className="send-btn" id="sendBtn" onClick={() => sendMessage()} title="Send" disabled={isTyping}>
                   ➤
                 </button>
@@ -1142,42 +1105,6 @@ export default function App() {
             onClick={() => setMobileSidebarOpen(false)}
           />
         )}
-      </div>
-
-      <div
-        className={`voice-soon-overlay${voiceModalOpen ? ' show' : ''}`}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="voice-soon-title"
-        onClick={() => setVoiceModalOpen(false)}
-      >
-        <div className="voice-soon-card" onClick={(e) => e.stopPropagation()}>
-          <button type="button" className="voice-soon-close" onClick={() => setVoiceModalOpen(false)} aria-label="Close">
-            ✕
-          </button>
-          <div className="voice-soon-icon" aria-hidden>
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-              <line x1="12" y1="19" x2="12" y2="23" />
-              <line x1="8" y1="23" x2="16" y2="23" />
-            </svg>
-          </div>
-          <h2 id="voice-soon-title" className="voice-soon-title">
-            Voice input — coming soon
-          </h2>
-          <p className="voice-soon-text">
-            We&apos;re building hands-free <strong>English</strong> and <strong>Spanish</strong> voice support for MediSaver.
-            For now, type your question in the chat bar — the assistant already understands and replies in Español and other languages.
-          </p>
-          <div className="voice-soon-badges">
-            <span className="vs-badge">🎙️ Voice — roadmap</span>
-            <span className="vs-badge">✍️ Text — live now</span>
-          </div>
-          <button type="button" className="voice-soon-ok" onClick={() => setVoiceModalOpen(false)}>
-            Got it
-          </button>
-        </div>
       </div>
     </>
   );
