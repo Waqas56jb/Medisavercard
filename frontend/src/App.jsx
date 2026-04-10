@@ -81,6 +81,41 @@ const DEFAULT_CHIPS = [
   { l: '✅ Sign Up', q: null, href: 'https://medisavercard.com/register' },
 ];
 
+/** Sidebar search filters these rows (labels + plan names). */
+const SIDEBAR_QUICK_TOPICS = [
+  { icon: '❓', label: 'What is MediSaver?', q: 'What is MediSaver and how does it work?' },
+  { icon: '💰', label: 'Plans & Pricing', q: 'What are the membership pricing plans?' },
+  { icon: '🏥', label: 'Find Doctors', q: 'Show me doctors and providers near Miami' },
+  { icon: '💊', label: 'Pharmacy Card', q: 'How does the free pharmacy discount card work?' },
+  { icon: '🏢', label: 'Group Plans', q: 'Tell me about group membership for my business' },
+  { icon: '🧪', label: 'Lab Prices', q: 'What are the member prices for lab tests?' },
+  { icon: '🦷', label: 'Dental Prices', q: 'What are dental member prices?' },
+  { icon: '🖼', label: 'Imaging / MRI', q: 'What are MRI and CT scan member prices?' },
+  { icon: '🚫', label: 'Is it Insurance?', q: 'Is MediSaver insurance?' },
+  { icon: '✅', label: 'Sign Up Free', q: 'How do I sign up and try it free?' },
+  { icon: '👨‍⚕️', label: 'Become Provider', q: 'I am a doctor and want to become a provider' },
+  { icon: '📞', label: 'Contact Us', q: 'What is the contact information and hours?' },
+];
+
+const SIDEBAR_PLANS = [
+  {
+    name: 'Single User',
+    price: '$30/mo',
+    q: 'Tell me about the Single User membership plan at $30 per month',
+  },
+  {
+    name: '2 Users',
+    price: '$40/mo',
+    q: 'Tell me about the 2 users membership plan at $40 per month',
+  },
+  {
+    name: 'Family (up to 5)',
+    price: '$55/mo',
+    q: 'Tell me about the family membership plan at $55 per month for up to 5 members',
+  },
+  { name: 'Group / Business', price: '$20/person', lead: true },
+];
+
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 const apiUrl = (path) => `${API_BASE}${path}`;
 
@@ -108,6 +143,7 @@ export default function App() {
   const [analyticsData, setAnalyticsData] = useState(null);
   const [analyticsError, setAnalyticsError] = useState(false);
   const [overlayActive, setOverlayActive] = useState(false);
+  const [sidebarSearch, setSidebarSearch] = useState('');
 
   const [lfTitle, setLfTitle] = useState('🎯 Get a Free Consultation');
   const [lfSub, setLfSub] = useState('Our MediSaver team will reach out within 1 business hour.');
@@ -394,6 +430,20 @@ export default function App() {
 
   const maxIntent = analyticsData?.topIntents?.[0]?.[1] || 1;
 
+  const sidebarQ = sidebarSearch.trim().toLowerCase();
+  const filteredSidebarTopics = useMemo(() => {
+    if (!sidebarQ) return SIDEBAR_QUICK_TOPICS;
+    return SIDEBAR_QUICK_TOPICS.filter(
+      (t) => t.label.toLowerCase().includes(sidebarQ) || t.q.toLowerCase().includes(sidebarQ)
+    );
+  }, [sidebarQ]);
+  const filteredSidebarPlans = useMemo(() => {
+    if (!sidebarQ) return SIDEBAR_PLANS;
+    return SIDEBAR_PLANS.filter((p) =>
+      `${p.name} ${p.price}`.toLowerCase().includes(sidebarQ)
+    );
+  }, [sidebarQ]);
+
   return (
     <>
       <div
@@ -671,163 +721,62 @@ export default function App() {
               </div>
             </div>
 
+            <div className="sidebar-search-wrap">
+              <label className="sidebar-search-label" htmlFor="sidebarSearchInput">
+                Search topics &amp; plans
+              </label>
+              <input
+                id="sidebarSearchInput"
+                type="search"
+                className="sidebar-search-input"
+                placeholder="Type to filter…"
+                value={sidebarSearch}
+                onChange={(e) => setSidebarSearch(e.target.value)}
+                autoComplete="off"
+                enterKeyHint="search"
+              />
+            </div>
+
             <div className="sb-section-label">Quick Topics</div>
             <div className="quick-actions">
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('What is MediSaver and how does it work?')}
-              >
-                <span className="qa-icon">❓</span>
-                <span className="qa-label">What is MediSaver?</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('What are the membership pricing plans?')}
-              >
-                <span className="qa-icon">💰</span>
-                <span className="qa-label">Plans & Pricing</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('Show me doctors and providers near Miami')}
-              >
-                <span className="qa-icon">🏥</span>
-                <span className="qa-label">Find Doctors</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('How does the free pharmacy discount card work?')}
-              >
-                <span className="qa-icon">💊</span>
-                <span className="qa-label">Pharmacy Card</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('Tell me about group membership for my business')}
-              >
-                <span className="qa-icon">🏢</span>
-                <span className="qa-label">Group Plans</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('What are the member prices for lab tests?')}
-              >
-                <span className="qa-icon">🧪</span>
-                <span className="qa-label">Lab Prices</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('What are dental member prices?')}
-              >
-                <span className="qa-icon">🦷</span>
-                <span className="qa-label">Dental Prices</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('What are MRI and CT scan member prices?')}
-              >
-                <span className="qa-icon">🖼</span>
-                <span className="qa-label">Imaging / MRI</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button type="button" className="qa-btn" onClick={() => quickSend('Is MediSaver insurance?')}>
-                <span className="qa-icon">🚫</span>
-                <span className="qa-label">Is it Insurance?</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button type="button" className="qa-btn" onClick={() => quickSend('How do I sign up and try it free?')}>
-                <span className="qa-icon">✅</span>
-                <span className="qa-label">Sign Up Free</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('I am a doctor and want to become a provider')}
-              >
-                <span className="qa-icon">👨‍⚕️</span>
-                <span className="qa-label">Become Provider</span>
-                <span className="qa-arrow">›</span>
-              </button>
-              <button
-                type="button"
-                className="qa-btn"
-                onClick={() => quickSend('What is the contact information and hours?')}
-              >
-                <span className="qa-icon">📞</span>
-                <span className="qa-label">Contact Us</span>
-                <span className="qa-arrow">›</span>
-              </button>
+              {filteredSidebarTopics.length === 0 ? (
+                <div className="sidebar-search-empty">No topics match your search.</div>
+              ) : (
+                filteredSidebarTopics.map((t) => (
+                  <button key={t.label} type="button" className="qa-btn" onClick={() => quickSend(t.q)}>
+                    <span className="qa-icon">{t.icon}</span>
+                    <span className="qa-label">{t.label}</span>
+                    <span className="qa-arrow">›</span>
+                  </button>
+                ))
+              )}
             </div>
 
             <div className="sb-section-label" style={{ marginTop: '8px' }}>
               Membership Plans
             </div>
             <div className="plan-list">
-              <div
-                className="plan-item"
-                onClick={() => quickSend('Tell me about the Single User membership plan at $30 per month')}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && quickSend('Tell me about the Single User membership plan at $30 per month')}
-              >
-                <span className="plan-name">Single User</span>
-                <span className="plan-price">$30/mo</span>
-              </div>
-              <div
-                className="plan-item"
-                onClick={() => quickSend('Tell me about the 2 users membership plan at $40 per month')}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === 'Enter' && quickSend('Tell me about the 2 users membership plan at $40 per month')
-                }
-              >
-                <span className="plan-name">2 Users</span>
-                <span className="plan-price">$40/mo</span>
-              </div>
-              <div
-                className="plan-item"
-                onClick={() =>
-                  quickSend(
-                    'Tell me about the family membership plan at $55 per month for up to 5 members'
-                  )
-                }
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) =>
-                  e.key === 'Enter' &&
-                  quickSend('Tell me about the family membership plan at $55 per month for up to 5 members')
-                }
-              >
-                <span className="plan-name">Family (up to 5)</span>
-                <span className="plan-price">$55/mo</span>
-              </div>
-              <div
-                className="plan-item"
-                onClick={() => openLead('group')}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && openLead('group')}
-              >
-                <span className="plan-name">Group / Business</span>
-                <span className="plan-price">$20/person</span>
-              </div>
+              {filteredSidebarPlans.length === 0 ? (
+                <div className="sidebar-search-empty">No plans match your search.</div>
+              ) : (
+                filteredSidebarPlans.map((p) => (
+                  <div
+                    key={p.name}
+                    className="plan-item"
+                    onClick={() => (p.lead ? openLead('group') : quickSend(p.q))}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key !== 'Enter') return;
+                      if (p.lead) openLead('group');
+                      else quickSend(p.q);
+                    }}
+                  >
+                    <span className="plan-name">{p.name}</span>
+                    <span className="plan-price">{p.price}</span>
+                  </div>
+                ))
+              )}
             </div>
 
             <div className="sb-section-label" style={{ marginTop: '12px' }}>
@@ -873,8 +822,23 @@ export default function App() {
             >
               ☰
             </button>
+            {messages.length > 0 && welcomeMode !== 'none' && (
+              <button
+                type="button"
+                className="back-home-btn"
+                onClick={() => setWelcomeMode('none')}
+                title="Back to conversation"
+              >
+                ← Back
+              </button>
+            )}
             {welcomeMode === 'none' && (
-              <button type="button" className="back-home-btn" onClick={() => setWelcomeMode('full')} title="Back to home">
+              <button
+                type="button"
+                className="back-home-btn back-home-btn--home"
+                onClick={() => setWelcomeMode('full')}
+                title="Home"
+              >
                 ← Home
               </button>
             )}
