@@ -585,6 +585,72 @@ app.post('/api/leads', (req, res) => {
 });
 
 /* ═══════════════════════════════════════════════════════════
+   REALTIME VOICE AGENT — EPHEMERAL TOKEN
+   Browser uses this token to connect DIRECTLY to OpenAI
+   Realtime API via WebRTC (API key never leaves server)
+═══════════════════════════════════════════════════════════ */
+app.post('/api/realtime-token', async (req, res) => {
+    try {
+        const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o-realtime-preview-2024-12-17',
+                voice: 'shimmer',
+                instructions: `You are MediSaver AI — a warm, professional, and empathetic healthcare assistant for MediSaver Medical Discount Card, a Florida-licensed medical discount plan (DMPO) under Chapter 636, Part II of Florida Statutes.
+
+CRITICAL RULE: MediSaver is NOT insurance. It is a medical DISCOUNT plan. Never call it insurance.
+
+BEGIN IMMEDIATELY by greeting the user warmly and professionally:
+"Hello! I'm your MediSaver AI assistant. I'm here to help you save on healthcare costs. How can I help you today?"
+
+SPEAK NATURALLY for voice — keep responses concise, warm, and conversational. Avoid long lists unless asked. Speak like a knowledgeable healthcare advisor.
+
+KEY FACTS:
+- Plans: Single $30/mo | 2 Users $40/mo | Family (up to 5) $55/mo | Group $20/person/mo
+- First month includes a one-time $40 sign-up fee
+- Try FREE for 30 days at medisavercard.com
+- 60+ participating providers in Miami-Dade, Broward, Palm Beach
+- Doctor visits: $25 initial, $20 follow-up | Specialist: $60 initial, $40 follow-up
+- Free pharmacy discount card: saves up to 80-88% at 70,000+ pharmacies nationwide
+- MRI without contrast: $275 | CT scan: $150-$200 | X-rays: $25 each
+- Phone: (305) 884-8740 | Email: info@medisavercard.com | Hours: Mon-Fri 8:30am-5:30pm
+- No medical exam, no health screening — everyone qualifies
+
+If asked to book an appointment or sign up, direct to medisavercard.com or call (305) 884-8740.`,
+                modalities: ['audio', 'text'],
+                input_audio_transcription: { model: 'whisper-1' },
+                turn_detection: {
+                    type: 'server_vad',
+                    threshold: 0.5,
+                    prefix_padding_ms: 300,
+                    silence_duration_ms: 600,
+                    create_response: true
+                }
+            })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            console.error('OpenAI Realtime session error:', data);
+            return res.status(500).json({ error: 'Failed to create realtime session', details: data });
+        }
+
+        console.log('🎙️  Voice session created — expires:', data.client_secret?.expires_at);
+        res.json({
+            token: data.client_secret.value,
+            expires: data.client_secret.expires_at
+        });
+    } catch (err) {
+        console.error('Realtime token endpoint error:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+/* ═══════════════════════════════════════════════════════════
    ANALYTICS
 ═══════════════════════════════════════════════════════════ */
 app.get('/api/analytics', (req, res) => {
