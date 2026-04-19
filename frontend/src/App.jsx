@@ -979,22 +979,32 @@ export default function App() {
                 <p className="welcome-sub">Ready to help you again. Ask me anything about MediSaver!</p>
               </div>
             )}
-            {messages.map((m) => (
-              <div key={m.id} className={`msg-row${m.role === 'bot' ? '' : ' user'}`}>
-                <div className={`msg-av ${m.role === 'bot' ? 'bot' : 'usr'}`}>{m.role === 'bot' ? <img src="/logo.jpeg" alt="Bot" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} /> : '👤'}</div>
-                <div className="msg-body">
-                  {m.role === 'bot' ? (
-                    <div
-                      className="bubble bot"
-                      dangerouslySetInnerHTML={{ __html: formatBot(m.content) }}
-                    />
-                  ) : (
-                    <div className="bubble user">{m.content}</div>
-                  )}
-                  <div className="msg-time">{m.time}</div>
+            {messages.map((m) => {
+              /* Voice session separator */
+              if (m.isVoiceSep) {
+                return (
+                  <div key={m.id} className="voice-sep-row">
+                    <span className="voice-sep-chip">{m.content}</span>
+                  </div>
+                );
+              }
+              return (
+                <div key={m.id} className={`msg-row${m.role === 'bot' ? '' : ' user'}`}>
+                  <div className={`msg-av ${m.role === 'bot' ? 'bot' : 'usr'}`}>{m.role === 'bot' ? <img src="/logo.jpeg" alt="Bot" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} /> : '👤'}</div>
+                  <div className="msg-body">
+                    {m.role === 'bot' ? (
+                      <div
+                        className="bubble bot"
+                        dangerouslySetInnerHTML={{ __html: formatBot(m.content) }}
+                      />
+                    ) : (
+                      <div className="bubble user">{m.content}</div>
+                    )}
+                    <div className="msg-time">{m.time}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
             {isTyping && (
               <div className="typing-row">
                 <div className="msg-av bot"><img src="/logo.jpeg" alt="Bot" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} /></div>
@@ -1060,7 +1070,27 @@ export default function App() {
                 disabled={isTyping}
                 aria-label="Message MediSaver AI"
               />
-              {voiceActive && <VoiceAgent onClose={() => setVoiceActive(false)} />}
+              {voiceActive && (
+                <VoiceAgent
+                  onClose={(voiceTranscript) => {
+                    setVoiceActive(false);
+                    if (voiceTranscript && voiceTranscript.length > 0) {
+                      /* Add a separator then all voice messages into the main chat */
+                      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                      const separator = { id: `voice_sep_${Date.now()}`, role: 'bot', content: '🎙️ Voice conversation', time, isVoiceSep: true };
+                      const msgs = voiceTranscript.map((m, i) => ({
+                        id: `voice_${Date.now()}_${i}`,
+                        role: m.role === 'assistant' ? 'bot' : 'user',
+                        content: m.text,
+                        time,
+                        fromVoice: true,
+                      }));
+                      setMessages(prev => [...prev, separator, ...msgs]);
+                      setWelcomeMode('none');
+                    }
+                  }}
+                />
+              )}
               <div className="input-actions">
                 <button
                   type="button"
