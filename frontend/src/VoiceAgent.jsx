@@ -1,4 +1,4 @@
-/**
+﻿/**
  * MediSaver Voice Agent — GPT-4o Realtime via WebRTC + ephemeral token.
  *
  * Cross-platform compatibility:
@@ -151,7 +151,7 @@ export function VoiceAgent({ onClose }) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
         });
-        if (!tokenRes.ok) throw new Error('server-token');
+        if (!tokenRes.ok) { const errBody = await tokenRes.text().catch(() => ''); throw Object.assign(new Error('voice-server'), { friendly: { icon: '🔌', text: 'Voice server returned an error (' + tokenRes.status + '). Make sure the backend is running and OPENAI_API_KEY is set.\n\n' + (errBody.slice(0,120) || '') } }); }
         const { token } = await tokenRes.json();
         if (cancelled) return;
 
