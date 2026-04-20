@@ -541,6 +541,8 @@
             gap: 18px;
             background: var(--bg);
             scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
         }
 
         .messages::-webkit-scrollbar {
@@ -1912,7 +1914,7 @@
         /* â•â•â•â•â•â• TOAST â•â•â•â•â•â• */
         .toast-wrap {
             position: fixed;
-            bottom: 24px;
+            bottom: max(24px, env(safe-area-inset-bottom, 24px));
             left: 50%;
             transform: translateX(-50%);
             z-index: 100;
@@ -1921,6 +1923,7 @@
             flex-direction: column;
             gap: 8px;
             align-items: center;
+            width: min(320px, 90vw);
         }
 
         .toast {
@@ -1936,7 +1939,9 @@
             align-items: center;
             gap: 8px;
             animation: toastIn .3s ease;
-            white-space: nowrap;
+            white-space: normal;
+            word-break: break-word;
+            max-width: 100%;
         }
 
         .toast.success {
@@ -2290,4 +2295,49 @@
                 align-self: flex-end;
                 padding-bottom: 0;
             }
+        }
+
+        /* ── Touch / tap: remove 300ms delay ───────────────────── */
+        button, [role="button"], a, .btn, .send-btn, .voice-btn,
+        .hdr-btn, .hdr-btn-ghost, .chip, .suggestion-btn {
+            touch-action: manipulation;
+        }
+
+        /* ── Very small phones (360px) ─────────────────────────── */
+        @media (max-width: 360px) {
+            .header {
+                padding: 8px 10px;
+                gap: 6px;
+            }
+            .header-info .header-title { font-size: 12px; }
+            .hdr-btn, .hdr-btn-ghost {
+                width: 30px;
+                height: 30px;
+                font-size: 13px;
+            }
+            .input-wrap {
+                padding: 6px 8px max(8px, env(safe-area-inset-bottom));
+            }
+            .input-box {
+                padding: 6px 6px 6px 10px;
+                gap: 4px;
+            }
+            .input-ta { font-size: 16px !important; min-height: 40px; }
+            .send-btn { width: 38px; height: 38px; min-width: 38px; min-height: 38px; }
+            .messages { padding: 10px 8px 12px; gap: 12px; }
+            .msg-bubble { font-size: 13px; }
+        }
+
+        /* ── Landscape compact (phones in landscape) ───────────── */
+        @media (max-height: 480px) and (orientation: landscape) {
+            .header {
+                min-height: 44px;
+                padding: 6px 12px;
+            }
+            .header-sub { display: none !important; }
+            .messages { padding-top: 6px; padding-bottom: 6px; gap: 10px; }
+            .input-wrap { padding-top: 6px; padding-bottom: max(6px, env(safe-area-inset-bottom)); }
+            .input-ta { min-height: 36px; max-height: min(20vh, 80px); }
+            .welcome { padding: 20px 16px; }
+            .welcome-title { font-size: 20px; }
         }
