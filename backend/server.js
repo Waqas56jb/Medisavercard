@@ -591,15 +591,19 @@ app.post('/api/leads', (req, res) => {
 ═══════════════════════════════════════════════════════════ */
 app.post('/api/realtime-token', async (req, res) => {
     try {
-        const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
+        const response = await fetch('https://api.openai.com/v1/realtime/client_secrets', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'gpt-4o-realtime-preview-2024-12-17',
-                voice: 'shimmer',
+                expires_after: { anchor: 'created_at', seconds: 1200 },
+                session: {
+                type: 'realtime',
+                model: 'gpt-realtime',
+                output_modalities: ['audio'],
+                audio: { input: { transcription: { model: 'whisper-1' }, turn_detection: { type: 'server_vad', threshold: 0.5, prefix_padding_ms: 300, silence_duration_ms: 600, create_response: true } }, output: { voice: 'shimmer' } },
                 instructions: `You are MediSaver AI — a warm, professional, and empathetic healthcare assistant for MediSaver Medical Discount Card, a Florida-licensed medical discount plan (DMPO) under Chapter 636, Part II of Florida Statutes.
 
 CRITICAL RULE: MediSaver is NOT insurance. It is a medical DISCOUNT plan. Never call it insurance.
@@ -622,14 +626,6 @@ KEY FACTS:
 - No medical exam, no health screening — everyone qualifies
 
 If asked to book an appointment or sign up, direct to medisavercard.com or call (305) 884-8740.`,
-                modalities: ['audio', 'text'],
-                input_audio_transcription: { model: 'whisper-1' },
-                turn_detection: {
-                    type: 'server_vad',
-                    threshold: 0.5,
-                    prefix_padding_ms: 300,
-                    silence_duration_ms: 600,
-                    create_response: true
                 }
             })
         });
@@ -640,10 +636,12 @@ If asked to book an appointment or sign up, direct to medisavercard.com or call 
             return res.status(500).json({ error: 'Failed to create realtime session', details: data });
         }
 
-        console.log('🎙️  Voice session created — expires:', data.client_secret?.expires_at);
+        const token = data.value || data.client_secret?.value;
+        if (!token) return res.status(500).json({ error: 'No ephemeral token in OpenAI response', details: data });
+        console.log('🎙️  Voice client secret created — expires:', data.expires_at);
         res.json({
-            token: data.client_secret.value,
-            expires: data.client_secret.expires_at
+            token,
+            expires: data.expires_at || data.client_secret?.expires_at
         });
     } catch (err) {
         console.error('Realtime token endpoint error:', err);
