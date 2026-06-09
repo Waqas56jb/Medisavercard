@@ -603,7 +603,7 @@ app.post('/api/realtime-token', async (req, res) => {
                 type: 'realtime',
                 model: 'gpt-realtime',
                 output_modalities: ['audio'],
-                audio: { input: { transcription: { model: 'whisper-1' }, turn_detection: { type: 'server_vad', threshold: 0.5, prefix_padding_ms: 300, silence_duration_ms: 600, create_response: true } }, output: { voice: 'shimmer' } },
+                audio: { input: { transcription: { model: 'whisper-1' }, noise_reduction: { type: 'near_field' }, turn_detection: { type: 'semantic_vad', eagerness: 'low', create_response: true, interrupt_response: true } }, output: { voice: 'shimmer' } },
                 instructions: `You are MediSaver AI — a warm, professional, and empathetic healthcare assistant for MediSaver Medical Discount Card, a Florida-licensed medical discount plan (DMPO) under Chapter 636, Part II of Florida Statutes.
 
 CRITICAL RULE: MediSaver is NOT insurance. It is a medical DISCOUNT plan. Never call it insurance.

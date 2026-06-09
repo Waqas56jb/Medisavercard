@@ -51,6 +51,7 @@
         .app {
             display: flex;
             height: 100vh;
+            height: 100dvh; /* mobile: use dynamic viewport so bottom input/mic stays visible */
             overflow: hidden;
         }
 
